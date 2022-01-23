@@ -121,6 +121,7 @@ public class PantallaPrincipal {
 						}
 						break;
 					case 2:
+						Coche coc = null;
 						System.out.println("Introduzca ID");
 						try {
 							id = sc.nextInt();
@@ -130,12 +131,18 @@ public class PantallaPrincipal {
 						}
 						for (int i=0;i<cocheArray.size();i++) {
 						      if(((Coche) cocheArray.get(i)).getId() == id) {
-						    	  System.out.println("El coche borrado ha sido: " + cocheArray.get(i).toString());
-						    	  cocheArray.remove(cocheArray.get(i));
+						    	  coc = (Coche) cocheArray.get(i);
+						    	  cocheArray.remove(coc);
 						      }
 						    }
+						if (coc == null) {
+							System.out.println("No hay ningun coche con este ID");
+						} else {
+					    	System.out.println("El coche: "+ coc.toString() + "ha sido elmininado");
+						}
 						break;
 					case 3:
+						Coche co = null;
 						System.out.println("Introduzca ID");
 						try {
 							id = sc.nextInt();
@@ -145,9 +152,14 @@ public class PantallaPrincipal {
 						}
 						for (int i=0;i<cocheArray.size();i++) {
 						      if(((Coche) cocheArray.get(i)).getId() == id) {
-						    	System.out.println(cocheArray.get(i).toString());
+						    	co = (Coche) cocheArray.get(i);
 						      }
 						    }
+						if (co == null) {
+							System.out.println("No hay ningun coche con este ID");
+						} else {
+					    	System.out.println(co.toString());
+						}
 						break;
 					case 4:
 						if (cocheArray.size() == 0) {
