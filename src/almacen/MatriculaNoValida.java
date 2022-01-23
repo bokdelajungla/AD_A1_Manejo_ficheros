@@ -1,4 +1,4 @@
-package requerimiento3;
+package almacen;
 
 /**
  * Clase que implementa la excepción que se lanza en caso de que la matrícula introducida no 

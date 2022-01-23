@@ -1,4 +1,4 @@
-package requerimiento3;
+package almacen;
 
 import java.io.Serializable;
 

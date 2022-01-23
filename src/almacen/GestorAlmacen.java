@@ -1,4 +1,4 @@
-package requerimiento3;
+package almacen;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
 
-public class GestorAlmacen3 {
+public class GestorAlmacen {
 	
 	/*Nombres de los ficheros*/
 	private static String NOMBRE_FICHERO = "coches.dat";
