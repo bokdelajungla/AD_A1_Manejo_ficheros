@@ -1,18 +1,22 @@
-package requerimiento1;
+package requerimiento2;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 
-public class GestorAlmacen {
+public class GestorAlmacen2 {
 	
 	private static String NOMBRE_FICHERO = "coches.dat";
+	private static String NOMBRE_FICHERO_TEXTO = "coches.txt";
 	
 	public static void main(String[] args) {
 
@@ -156,10 +160,28 @@ public class GestorAlmacen {
 					}
 					break;
 
+				case 5: //Escribir coches a fichero de texto
+					File texto = new File(NOMBRE_FICHERO_TEXTO); 
+					try(FileWriter fw = new FileWriter(texto);
+							PrintWriter pw = new PrintWriter(fw)){
+						listaCoches = gestorCoches.listarCoches();
+						for(Coche c: listaCoches) {
+							pw.println(c);
+						}
+						System.out.println("Fichero de texto creado.");
+						
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					break;
 					
-				case 5: //Terminar el programa
+				case 6: //Terminar el programa
 					//Guardar datos en coches.dat y salir
-					try(FileOutputStream fos = new FileOutputStream(fichero);
+					try(FileOutputStream fos = new FileOutputStream(fichero); //Al no poner "true" sobreescribimos el fichero
 							ObjectOutputStream oos = new ObjectOutputStream(fos)){
 						oos.writeObject(gestorCoches.listarCoches());
 					}
@@ -172,7 +194,7 @@ public class GestorAlmacen {
 					break;
 					
 				default: //Opción no válida
-					System.out.println("Opción no válida. Introduzca un núero entre 1 y 5");
+					System.out.println("Opción no válida. Introduzca un núero entre 1 y 6");
 					break;
 				}
 				
@@ -187,7 +209,8 @@ public class GestorAlmacen {
 		System.out.println("2 - Borrar coche por id");
 		System.out.println("3 - Consulta coche por id");
 		System.out.println("4 - Listado de coches");
-		System.out.println("5 - Terminar el programa");
+		System.out.println("5 - Escribir coches a fichero de texto");
+		System.out.println("6 - Terminar el programa");
 	}
 	
 }

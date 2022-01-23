@@ -2,20 +2,27 @@ package requerimiento1;
 
 import java.util.ArrayList;
 
-public class ControladorCoche {
+public class DAOCoche {
 	
 	private ArrayList<Coche> lista;
 	
-	public ControladorCoche() {
-		
+	public DAOCoche(ArrayList<Coche> lista) {
+		this.lista=lista;
 	}
 
-	public void addCoche() {
-		
+	public void addCoche(Coche coche) {
+		lista.add(coche);
 	}
 	
-	public void deleteCoche(String id) {
+	public Coche deleteCoche(int id) {
+		for(Coche coche: lista) {
+			if (coche.getId() == id){
+				lista.remove(coche);
+				return coche;
+			}
+		}
 		
+		return null;
 	}
 	
 	public Coche buscarCoche(int id) {

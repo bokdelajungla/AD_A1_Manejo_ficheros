@@ -1,4 +1,4 @@
-package requerimiento1;
+package requerimiento2;
 
 import java.io.Serializable;
 
