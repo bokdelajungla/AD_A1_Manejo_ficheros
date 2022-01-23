@@ -2,7 +2,7 @@ package requerimiento3;
 
 import java.io.Serializable;
 
-public class Coche implements Serializable{
+public class Coche implements Serializable{ //Hay que implementar Serializable para que se pueda guardar en un fichero como objeto
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -11,7 +11,7 @@ public class Coche implements Serializable{
 	private String marca;
 	private String modelo;
 	private String color;
-	public final static String MATRICULA_VALIDA = "^[0-9]{4}[A-Z]{3}$";
+	public final static String MATRICULA_VALIDA = "^[0-9]{4}[A-Z]{3}$"; //Expresión regular para la matrícula 
 	
 	public Coche (int id, String matricula, String marca, String modelo, String color) throws MatriculaNoValida{
 		if(validarMatricula(matricula)) {
@@ -26,6 +26,7 @@ public class Coche implements Serializable{
 		}
 	}
 
+	/*Método para validar la matrícula*/
 	public static boolean validarMatricula (String matricula) {
 		if(matricula.toUpperCase().matches(MATRICULA_VALIDA)) {
             return true;
@@ -36,6 +37,11 @@ public class Coche implements Serializable{
 	
 	@Override
 	public String toString() {
+		return "Coche:\nID:" + id + "\nmatricula:" + matricula + "\nmodelo:" + modelo + "\nmarca:" + marca + "\ncolor=" + color + "\n";
+	}
+	
+	/*Método para convertir al formato del fichero de texto*/
+	public String toTxt() {
 		return id +"-"+ matricula +"-"+ marca +"-"+ modelo +"-"+ color;
 	}
 	

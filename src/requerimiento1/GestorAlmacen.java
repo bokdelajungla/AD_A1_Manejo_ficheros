@@ -162,6 +162,7 @@ public class GestorAlmacen {
 					try(FileOutputStream fos = new FileOutputStream(fichero);
 							ObjectOutputStream oos = new ObjectOutputStream(fos)){
 						oos.writeObject(gestorCoches.listarCoches());
+						System.out.println("Datos guardados en el fichero coches.dat");
 					}
 					catch(IOException e) {
 						e.printStackTrace();

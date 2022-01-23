@@ -184,6 +184,7 @@ public class GestorAlmacen2 {
 					try(FileOutputStream fos = new FileOutputStream(fichero); //Al no poner "true" sobreescribimos el fichero
 							ObjectOutputStream oos = new ObjectOutputStream(fos)){
 						oos.writeObject(gestorCoches.listarCoches());
+						System.out.println("Datos guardados en el fichero coches.dat");
 					}
 					catch(IOException e) {
 						e.printStackTrace();

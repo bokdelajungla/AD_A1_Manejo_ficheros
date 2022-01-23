@@ -13,30 +13,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
+
 public class GestorAlmacen3 {
 	
+	/*Nombres de los ficheros*/
 	private static String NOMBRE_FICHERO = "coches.dat";
 	private static String NOMBRE_FICHERO_TEXTO = "coches.txt";
 	
+	/*Programa Principal*/
 	public static void main(String[] args) {
 
 		//Variables
-		boolean salir = false;
-		int opcion = 0;
-		Scanner sc = new Scanner(System.in); 
+		boolean salir = false; //Variable de control del bucle
+		int opcion = 0; //Variable de control del switch
+		Scanner sc = new Scanner(System.in); //Entrada de texto del usuario
 		
-		ArrayList<Coche> listaCoches = new ArrayList<Coche>();
+		ArrayList<Coche> listaCoches = new ArrayList<Coche>(); //ArrayList que contendrá los objetos Coche
 		
 		//Verificar si fichero coches.dat existe
-		//Podemos poner rutas absolutas tambien "C:/file.txt" o "C:\\file.txt"
-		//Tambien podemos crear un directorio, normalmente le quitamos la 
-		//extension al fichero // fichero.mkdir();
 		File fichero = new File(NOMBRE_FICHERO);// Apuntar al fichero definido de manera relativa
 		if (fichero.exists()) {// Averiguamos si existe
 			System.out.println("Fichero de datos encontrado, leyendo...");
+			//Leemos el objeto del fichero como un ArrayList de Coches, que es como se guardará al salir del pograma 
 			try(FileInputStream fis = new FileInputStream(fichero);
-					ObjectInputStream ois = new ObjectInputStream(fis)){
-				//Hacemos un cast a ArrayList de Coche
+					ObjectInputStream ois = new ObjectInputStream(fis)){//Autoclose
+				//Leemos el Objeto y hacemos un cast a ArrayList de Coches
 				listaCoches = (ArrayList<Coche>)ois.readObject();
 				System.out.println("Fichero de datos leído.");
 				System.out.println("Obtenida lista de coches.");
@@ -51,6 +52,7 @@ public class GestorAlmacen3 {
 			
 		}
 		else {
+			//Si el fichero no existe
 			System.out.println("Fichero de datos no encontrado. No hay datos anteriores.");
 		}
 		
@@ -76,8 +78,8 @@ public class GestorAlmacen3 {
 			finally {
 				sc.nextLine();//Limpiamos el buffer
 				
-				int id;
-				Coche coche;
+				int id; //Variable para almacenar el ID
+				Coche coche; //Variable para almacenar un objeto Coche
 				
 				switch(opcion) {
 				case 1: //Añadir nuevo coche
@@ -99,9 +101,15 @@ public class GestorAlmacen3 {
 					String modelo = sc.nextLine();
 					System.out.println("Intoduzca Color:");
 					String color = sc.nextLine();
+					
 					try {
+						//Intentamos crear el objeto Coche invocando su constructor
 						coche = new Coche(id, matricula, marca, modelo, color);
 						int aux = 0;
+						//addCoche() devuelve:
+						//0 si se ha podido añadir el coche a la lista
+						//1 si el ID ya existía dentro de la lista
+						//2 si la matrícula ya existía dentro de la lista
 						aux = gestorCoches.addCoche(coche);
 						if(aux==0) {
 							System.out.println("Se ha añadido el coche a la lista.");
@@ -114,6 +122,7 @@ public class GestorAlmacen3 {
 							System.out.println("El coche no se ha añadido a la lista porque su MATRICULA estaba duplicada");
 						}
 					}
+					//Si la matricula no cumple el formato se lanza una excepcion MatriculaNoValida
 					catch(MatriculaNoValida e) {
 						System.out.println(e.getMessage());
 					}
@@ -130,6 +139,8 @@ public class GestorAlmacen3 {
 						id = 0; //Inicializamos la opción
 					}
 					sc.nextLine();//Limpiamos el buffer
+					//deleteCoche devuelve el objeto coche borrado
+					//o null si no existe ningún coche con el ID especificado
 					coche = gestorCoches.deleteCoche(id);
 					if (coche == null) {
 						System.out.println("No hay ningún coche con ese ID");
@@ -151,6 +162,8 @@ public class GestorAlmacen3 {
 						id = 0; //Inicializamos la opción
 					}
 					sc.nextLine();//Limpiamos el buffer
+					//buscarCoche() devuelve el objeto Coche con el ID pasado
+					//o null en caso de que no exista ningún Coche con dicho ID
 					coche = gestorCoches.buscarCoche(id);
 					if (coche == null) {
 						System.out.println("No hay ningún coche con ese ID");
@@ -163,19 +176,24 @@ public class GestorAlmacen3 {
 					
 				case 4: //Listado de coches
 					System.out.println("Listar todos los coches:");
+					//Devuelve la lista completa con todos los Coches
 					listaCoches = gestorCoches.listarCoches();
+					//Se imprimen por pantalla cada uno de ellos
 					for(Coche c: listaCoches) {
 						System.out.println(c);
 					}
 					break;
 
 				case 5: //Escribir coches a fichero de texto
-					File texto = new File(NOMBRE_FICHERO_TEXTO); 
+					File texto = new File(NOMBRE_FICHERO_TEXTO); //Sobreescribimos el fichero
 					try(FileWriter fw = new FileWriter(texto);
 							PrintWriter pw = new PrintWriter(fw)){
+						//Obtenemos la lista completa de Coches
 						listaCoches = gestorCoches.listarCoches();
+						//Añadimos cada uno al fichero pero invocando su método toTxt()
+						//que le da el formato requerido
 						for(Coche c: listaCoches) {
-							pw.println(c);
+							pw.println(c.toTxt());
 						}
 						System.out.println("Fichero de texto creado.");
 						
@@ -192,7 +210,9 @@ public class GestorAlmacen3 {
 					//Guardar datos en coches.dat y salir
 					try(FileOutputStream fos = new FileOutputStream(fichero); //Al no poner "true" sobreescribimos el fichero
 							ObjectOutputStream oos = new ObjectOutputStream(fos)){
+						//Guardamos el objejo de la clase ArrayList<Coche> completo
 						oos.writeObject(gestorCoches.listarCoches());
+						System.out.println("Datos guardados en el fichero coches.dat");
 					}
 					catch(IOException e) {
 						e.printStackTrace();
